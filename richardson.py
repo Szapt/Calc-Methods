@@ -67,7 +67,7 @@ class RichardsonApp(QtWidgets.QMainWindow):
         # Derivada numérica básica con paso h
         F_h = (f(x0 + h) - f(x0)) / h
         # Derivada numérica con paso h/q
-        F_hq = (f(x0 + h / q) - f(x0)) / (h / q)
+        F_hq = (f(x0 + (h / q)) - f(x0)) / (h / q)
         
         # Aplicamos tu fórmula de extrapolación de Richardson
         F_richardson = F_h + (F_h - F_hq) / (q**(-p) - 1)
