@@ -129,7 +129,7 @@ class MainApp(QtWidgets.QMainWindow):
         subprocess.Popen(['python', os.path.join('Calc-Methods', 'secante.py')])
         
     def open_difDivi(self):
-        # Abre el archivo de diferencias divididas
+        # Abre el archivo de diferencias divididas|
         subprocess.Popen(['python', os.path.join('Calc-Methods', 'diferencias_divididas.py')])
 
     def open_punto_medio(self):

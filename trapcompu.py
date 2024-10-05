@@ -65,10 +65,10 @@ class TrapezoidApp(QtWidgets.QMainWindow):
             f_second_derivative = lambdify(x, second_derivative_expr)
 
             # Llamar a la función que implementa la regla del trapecio compuesto
-            result = self.trapezoid_compound(f, f_second_derivative, a, b, n)
+            result, error_estimate = self.trapezoid_compound(f, f_second_derivative, a, b, n)
             
-            # Mostrar el resultado
-            self.resultLabel.setText(f"La integral desde {a} hasta {b}: {result}")
+            # Mostrar el resultado y el error estimado
+            self.resultLabel.setText(f"Integral: {result}, Error estimado: {error_estimate}")
 
         except Exception as e:
             self.resultLabel.setText(f"Error: {str(e)}")
@@ -84,14 +84,12 @@ class TrapezoidApp(QtWidgets.QMainWindow):
         # Calcular la integral con la regla del trapecio
         integral = (h / 2) * sum
 
-        # Calcular el término de corrección basado en la segunda derivada
-        e = (a + b) / 2  # Aproximación para el punto e
-        correction = ((b - a) / (12 * n ** 2)) * f_second_derivative(e)
+        ### Cálculo del error añadido ###
+        # Error = (b - a)³ / (12 * n²) * max|f''(x)| en el intervalo [a, b]
+        max_second_deriv = max(f_second_derivative(a), f_second_derivative(b))  # Aproximación para el máximo de f''(x)
+        error_estimate = ((b - a) ** 3) / (12 * n ** 2) * abs(max_second_deriv)
 
-        # Restar la corrección
-        corrected_integral = integral - correction
-
-        return corrected_integral
+        return integral, error_estimate
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
